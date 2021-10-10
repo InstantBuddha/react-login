@@ -23,10 +23,7 @@ export class Selector extends Component {
 
     childSwitcher(){
         const switchLogin = !this.state.showLogin
-        //teszt a wehaveuserre, csak mailcímet néz
-        //console.log(this.userChecker({email: "testuser@test.com", password : "test"}))
-        //console.log(this.userChecker({email: "testuser@test.com", password : "te"}))
-        //console.log(this.userChecker({email: "testu@test.com", password : "test"}))
+        
         this.setState({
             showLogin : switchLogin
         })

@@ -18,7 +18,6 @@ export class SignUp extends Component {
     }
     
     handleChange(event){
-        //console.log(event.target.type)
         switch (event.target.type){
             case "email":
                 this.setState({email: event.target.value.toLowerCase()})
