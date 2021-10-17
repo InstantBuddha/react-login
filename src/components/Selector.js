@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Content from './Content'
 import LoginPage from './LoginPage'
 import SignUp from './SignUp'
+import UsersTable from './UsersTable'
 
 export class Selector extends Component {
 
@@ -88,7 +89,10 @@ export class Selector extends Component {
                 </div>
             )
         }else{
-            return <Content allUsersList = {this.state.users} logOut = {this.logOut}/>
+            return  <div>
+                        <UsersTable allUsersList = {this.state.users}/>
+                        <button onClick={this.logOut}>Log out</button>
+                    </div>
         } 
     }
 }
