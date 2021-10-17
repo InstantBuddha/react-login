@@ -21,10 +21,11 @@ export class Selector extends Component {
         }
 
         this.childSwitcher = this.childSwitcher.bind(this)
-        this.userChecker = this.userChecker.bind(this)
         this.signYouUp = this.signYouUp.bind(this)
         this.signYouIn = this.signYouIn.bind(this)
         this.logOut = this.logOut.bind(this)
+        this.getUser = this.getUser.bind(this)
+        this.hasUser = this.hasUser.bind(this)
     }
 
     childSwitcher(){
@@ -35,21 +36,16 @@ export class Selector extends Component {
         })
     }
 
-    userChecker(personToCheck, passNeeded){
-        const answer = this.state.users.filter(checker)
-        function checker(user){
-            if(user.email === personToCheck.email && passNeeded && user.password === personToCheck.password){
-                return user
-            }else if(user.email === personToCheck.email && !passNeeded){
-                return [true]
-            } 
-        }
-        return answer[0] ? answer[0] : false
+    getUser(email){
+        return this.state.users.find(user => user.email == email)
+    }
+
+    hasUser(email){
+        return this.getUser(email) !== undefined
     }
 
     signYouUp(userToSignUp){
-        const haveUser = this.userChecker(userToSignUp, false) ? true : false
-        if(!haveUser){
+        if(!this.hasUser(userToSignUp.email)){
             let UpdatedUsers = [...this.state.users, userToSignUp]
             this.setState({showLogin: true,
                 users : UpdatedUsers})
@@ -58,16 +54,20 @@ export class Selector extends Component {
     }
 
     signYouIn(userToCheck){
-        const haveUser = this.userChecker(userToCheck, true) ? true : false
-        if(haveUser){
-            alert("Hello someone with the email: " + userToCheck.email + " You are logged in!")
-            this.setState({
+        const savedUser = this.getUser(userToCheck.email)
+        if(savedUser === undefined){
+            alert("It seems you haven't registered yet...")
+            return
+        }
+        if(savedUser.password !== userToCheck.password){
+            alert("Wrong password")
+            return
+        }
+        alert("Hello someone with the email: " + userToCheck.email + " You are logged in!")
+        this.setState({
                 loggedIn: true,
                 currentUser: userToCheck
-            })
-        }else{
-            alert("Something went wrong!")
-        }  
+        }) 
     }
 
     logOut(){
