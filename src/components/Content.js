@@ -16,7 +16,6 @@ export class Content extends Component {
     }
     
     render() {
-        //console.log(this.state.usersToDisplay)
         const userList = this.state.usersToDisplay.map( user => <UserCard user = {user}/>)
         return (
             <div>
