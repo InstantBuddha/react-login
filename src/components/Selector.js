@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Content from './Content'
 import LoginPage from './LoginPage'
 import SignUp from './SignUp'
 
@@ -9,8 +10,12 @@ export class Selector extends Component {
     
         this.state = {
              showLogin : true,
+             loggedIn : false,
+             currentUser : {email: "", password : ""},
              users: [
-                 {email: "testuser@test.com", password : "test"}
+                 {email: "testuser@test.com", password : "test"},
+                 {email: "testuser2@test2.com", password : "test"},
+                 {email: "testuser3@test3.com", password : "test"}
              ]
         }
 
@@ -18,6 +23,7 @@ export class Selector extends Component {
         this.userChecker = this.userChecker.bind(this)
         this.signYouUp = this.signYouUp.bind(this)
         this.signYouIn = this.signYouIn.bind(this)
+        this.logOut = this.logOut.bind(this)
         
     }
 
@@ -59,23 +65,43 @@ export class Selector extends Component {
     signYouIn(userToCheck){
         const haveUser = this.userChecker(userToCheck, true) ? true : false
         console.log(haveUser)
-        haveUser ? 
-        alert("Hello someone with the email: " + userToCheck.email + " You are logged in!")
-        :
-        alert("Something went wrong!")
+        if(haveUser){
+            alert("Hello someone with the email: " + userToCheck.email + " You are logged in!")
+            this.setState({
+                loggedIn: true,
+                currentUser: userToCheck
+            })
+            console.log(this.state)
+        }else{
+            alert("Something went wrong!")
+        }  
+        
+        
+    }
+
+    logOut(){
+        this.setState({
+            loggedIn: false,
+            currentUser: {email: "", password : ""}
+        })
+        alert("You have logged out!")
     }
     
 
     render() {
         console.log(this.state)
-        return (
-            <div>
-                {this.state.showLogin ? 
-                <LoginPage childSwitcher = {this.childSwitcher} signYouIn={this.signYouIn}/>
-                : 
-                <SignUp childSwitcher = {this.childSwitcher} signYouUp = {this.signYouUp}/>}
-            </div>
-        )
+        if (!this.state.loggedIn){
+            return (
+                <div>
+                    {this.state.showLogin ? 
+                    <LoginPage childSwitcher = {this.childSwitcher} signYouIn={this.signYouIn}/>
+                    : 
+                    <SignUp childSwitcher = {this.childSwitcher} signYouUp = {this.signYouUp}/>}
+                </div>
+            )
+        }else{
+            return <Content allUsersList = {this.state.users} logOut = {this.logOut}/>
+        } 
     }
 }
 
