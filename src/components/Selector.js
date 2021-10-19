@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Content from './Content'
 import LoginPage from './LoginPage'
 import SignUp from './SignUp'
 import UsersTable from './UsersTable'
