@@ -28,8 +28,6 @@ export class SignUp extends Component {
             default:
                 console.log("ohh")          
         }
-        
-        
     }
 
     handleSubmit(event){
@@ -38,7 +36,6 @@ export class SignUp extends Component {
     }
 
     render() {
-        //console.log(this.state)
         return (
             <div>
                 <h1>Sign Up</h1>
