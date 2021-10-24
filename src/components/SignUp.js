@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import MessageDisplayer from './MessageDisplayer'
 
 export class SignUp extends Component {
     constructor(props) {
@@ -42,8 +43,10 @@ export class SignUp extends Component {
             case "pass2":
                 copiedTempState.tempData.pass2 = event.target.value
                 break
+            case "agreed":
+                copiedTempState.tempData.agreed = !copiedTempState.tempData.agreed    
             default:
-                console.log("ohh")
+                console.log("ohh switch")
         }
 
         this.setState(copiedTempState)
@@ -52,11 +55,16 @@ export class SignUp extends Component {
 
     handleSubmit(event) {
         let copiedTempState = { ...this.state }
-        if(this.passwordChecker(copiedTempState.tempData.pass1, copiedTempState.tempData.pass2)){
-            copiedTempState.finalData.password = copiedTempState.tempData.pass1
-            copiedTempState.finalData.email = copiedTempState.tempData.email
-            this.setState(copiedTempState)
-            this.props.signYouUp(this.state.finalData)
+        if(!copiedTempState.tempData.agreed){
+            this.messageDisplayer("You haven't agreed to whatever!")
+        }
+        if(this.passwordChecker(copiedTempState.tempData.pass1, copiedTempState.tempData.pass2)
+            &&
+            copiedTempState.tempData.agreed){
+                copiedTempState.finalData.password = copiedTempState.tempData.pass1
+                copiedTempState.finalData.email = copiedTempState.tempData.email
+                this.setState(copiedTempState)
+                this.props.signYouUp(this.state.finalData)
         }
         
         console.log(this.state)        
@@ -64,14 +72,18 @@ export class SignUp extends Component {
     }
 
     passwordChecker(pass1, pass2) {
-        //működik, csak a messageDisplayerrel van gond
-        console.log("passwordchecker: " + pass1 + pass2)
-        const regex = new RegExp("^.{6,}$")
+        const regex = new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")
         if(regex.test(pass1)){
-            //this.messageDisplayer("pass1 passed")
-            return true
+            if(pass1 === pass2){
+                console.log("good passwords")
+                return true
+            }else{
+                this.messageDisplayer("your passwords don't match!")
+                return false
+            }
+                        
         }else{
-            //this.messageDisplayer("Your password is not strong enough")
+            this.messageDisplayer("Your password is not strong enough")
             return false
         }
         
@@ -79,13 +91,10 @@ export class SignUp extends Component {
     }
 
     messageDisplayer(message) {
-        let copiedTempState = { ...this.state }
-        copiedTempState.tempData.displayMessage = message
-        this.setState(copiedTempState)
-        const inlineCss = {
-            color: 'red'
-        }
-        return <label style={inlineCss} >{this.state.tempData.displayMessage}<br /></label>
+            let copiedTempState = { ...this.state }
+            copiedTempState.tempData.displayMessage = message
+            this.setState(copiedTempState)
+            
     }
 
     render() {
@@ -114,7 +123,15 @@ export class SignUp extends Component {
                             name="pass2"
                             onChange={this.handleChange} />
                         <br />
-                        {this.state.tempData.displayMessage ? this.messageDisplayer(this.state.tempData.displayMessage) : ""}
+                        Do you agree to whatever?
+                        <input
+                            type="checkbox"
+                            name="agreed"
+                            onChange={this.handleChange} />
+                        <br />
+                        {this.state.tempData.displayMessage ? 
+                        <MessageDisplayer message = {this.state.tempData.displayMessage} />
+                        : ""}
                         <input
                             type="submit"
                             value="Register" />
