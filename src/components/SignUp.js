@@ -44,13 +44,13 @@ export class SignUp extends Component {
                 copiedTempState.tempData.pass2 = event.target.value
                 break
             case "agreed":
-                copiedTempState.tempData.agreed = !copiedTempState.tempData.agreed    
+                copiedTempState.tempData.agreed = !copiedTempState.tempData.agreed  
+                break  
             default:
                 console.log("ohh switch")
         }
 
         this.setState(copiedTempState)
-        console.log(this.state)
     }
 
     handleSubmit(event) {
@@ -67,34 +67,27 @@ export class SignUp extends Component {
                 this.props.signYouUp(this.state.finalData)
         }
         
-        console.log(this.state)        
         event.preventDefault()
     }
 
     passwordChecker(pass1, pass2) {
-        const regex = new RegExp("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")
-        if(regex.test(pass1)){
-            if(pass1 === pass2){
-                console.log("good passwords")
-                return true
-            }else{
-                this.messageDisplayer("your passwords don't match!")
-                return false
-            }
-                        
-        }else{
-            this.messageDisplayer("Your password is not strong enough")
+        const regex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})")
+
+        if(!regex.test(pass1)){
+            this.messageDisplayer("Your password must contain letters, capitals and numbers and it should be at least 8 characters long")
             return false
         }
-        
-        
+        if(pass1 !== pass2){
+            this.messageDisplayer("Your passwords don't match!")
+            return false
+        }
+        return true
     }
 
     messageDisplayer(message) {
             let copiedTempState = { ...this.state }
             copiedTempState.tempData.displayMessage = message
-            this.setState(copiedTempState)
-            
+            this.setState(copiedTempState)            
     }
 
     render() {
@@ -129,9 +122,9 @@ export class SignUp extends Component {
                             name="agreed"
                             onChange={this.handleChange} />
                         <br />
-                        {this.state.tempData.displayMessage ? 
+                        {this.state.tempData.displayMessage && 
                         <MessageDisplayer message = {this.state.tempData.displayMessage} />
-                        : ""}
+                        }
                         <input
                             type="submit"
                             value="Register" />
