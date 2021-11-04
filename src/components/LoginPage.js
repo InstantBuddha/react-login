@@ -38,24 +38,51 @@ export class LoginPage extends Component {
     }
 
     render() {
+        const customCSS = {
+            wrapper: "border border-secondary p-2 rounded bg-light",
+            form: "",
+            inputs: "form-control",
+            texts: "form-text mt-2 mb-2",
+            button: "btn btn-primary"
+        }
+        const Line = () => (<hr class="text-secondary"/>)
         return (
-            <div>
+            <div class={customCSS.wrapper}>
                 <h1>Login</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
+                <Line />                
+                <form onSubmit={this.handleSubmit} 
+                    class={customCSS.form}>
+                    <label class={customCSS.texts}>
                         Log in to wonderPage!
                         <br />
-                        Your email: &nbsp; <input type="email" value={this.state.email} onChange={this.handleChange} />
+                        Your email: 
+                        <input 
+                            type="email" 
+                            value={this.state.email} 
+                            onChange={this.handleChange} 
+                            class={customCSS.inputs}/>
                         <br />
-                        Password: &nbsp; &nbsp; <input type="password" value={this.state.password} onChange={this.handleChange} />
+                        Password: 
+                        <input 
+                            type="password" 
+                            value={this.state.password} 
+                            onChange={this.handleChange} 
+                            class={customCSS.inputs}/>
                         <br />
-                        <input type="submit" value="Log in" />
+                        <input 
+                            type="submit" 
+                            value="Log in" 
+                            class={customCSS.button}/>
                     </label>
+                    <Line /> 
                 </form>
                 <form onSubmit={this.switchToLogin}>
-                    <label>
-                        Haven't registered yet? &nbsp;
-                        <input type="submit" value="Register"/>
+                    <label >
+                        <div class={customCSS.texts}>Haven't registered yet? </div>
+                        <input 
+                            type="submit" 
+                            value="Register" 
+                            class={customCSS.button}/>
                     </label>
                 </form>
             </div>

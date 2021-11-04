@@ -78,19 +78,26 @@ export class Selector extends Component {
     }
 
     render() {
+        const inlineCSS = "d-flex justify-content-center mt-5"
         if (!this.state.loggedIn){
             return (
-                <div>
+                <div class={inlineCSS}>
                     {this.state.showLogin ? 
-                    <LoginPage childSwitcher = {this.childSwitcher} signYouIn={this.signYouIn}/>
+                    <LoginPage childSwitcher = {this.childSwitcher} 
+                            signYouIn={this.signYouIn}/>
                     : 
-                    <SignUp childSwitcher = {this.childSwitcher} signYouUp = {this.signYouUp}/>}
+                    <SignUp childSwitcher = {this.childSwitcher}
+                            signYouUp = {this.signYouUp}/>}
                 </div>
             )
         }else{
-            return  <div>
+            return  <div class="m-5">
                         <UsersTable allUsersList = {this.state.users}/>
-                        <button onClick={this.logOut}>Log out</button>
+                        <button 
+                            onClick={this.logOut}
+                            class="btn btn-primary btn-lg">
+                            Log out
+                        </button>
                     </div>
         } 
     }

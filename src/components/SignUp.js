@@ -91,50 +91,71 @@ export class SignUp extends Component {
     }
 
     render() {
+        const customCSS = {
+            wrapper: "border border-secondary p-2 rounded bg-light",
+            form: "",
+            inputs: "form-control",
+            texts: "form-text mt-2 mb-2",
+            checkbox: "form-check-input m-1",
+            button: "btn btn-primary"
+        }
+        const Line = () => (<hr class="text-secondary"/>)
         return (
-            <div>
+            <div class={customCSS.wrapper}>
                 <h1>Sign Up</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
+                <Line /> 
+                <form onSubmit={this.handleSubmit} 
+                    class={customCSS.form}>
+                    <label class={customCSS.texts}>
                         Register to wonderPage!
                         <br />
                         Your email: <br />
                         <input
                             type="email"
                             name="email"
-                            onChange={this.handleChange} />
+                            onChange={this.handleChange} 
+                            class={customCSS.inputs} />
                         <br />
                         Choose a password: <br />
                         <input
                             type="password"
                             name="pass1"
-                            onChange={this.handleChange} />
+                            onChange={this.handleChange} 
+                            class={customCSS.inputs} />
                         <br />
                         Write it again: <br />
                         <input
                             type="password"
                             name="pass2"
-                            onChange={this.handleChange} />
+                            onChange={this.handleChange} 
+                            class={customCSS.inputs} />
                         <br />
-                        Do you agree to whatever?
                         <input
                             type="checkbox"
                             name="agreed"
-                            onChange={this.handleChange} />
+                            onChange={this.handleChange}
+                            class={customCSS.checkbox}  />
+                        I agree to whatever
                         <br />
                         {this.state.tempData.displayMessage && 
                         <MessageDisplayer message = {this.state.tempData.displayMessage} />
                         }
                         <input
                             type="submit"
-                            value="Register" />
+                            value="Register" 
+                            class={customCSS.button} />
                     </label>
                 </form>
-                
+                <Line /> 
                 <form onSubmit={this.switchToSignUp}>
                     <label>
-                        Already registered? &nbsp;
-                        <input type="submit" value="Log in" />
+                        <div 
+                            class={customCSS.texts}>
+                            Already registered? 
+                        </div>
+                        <input type="submit" 
+                            value="Log in" 
+                            class={customCSS.button} />
                     </label>
                 </form>
                 
